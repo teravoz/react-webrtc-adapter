@@ -1,3 +1,3 @@
 # react-webrtc-adapter
 
-Coming soon...
+Coming soon
