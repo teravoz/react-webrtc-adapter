@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from 'react';
-import EventEmitter from 'events';
+import React, { createRef, Component, Fragment } from 'react';
+import Script from 'react-load-script'
+import EventEmitter from 'eventemitter3';
 
 export default (WrappedComponent, opts) => {
 
@@ -23,10 +24,17 @@ export default (WrappedComponent, opts) => {
 
   class TeravozAdapter extends Component {
 
-    state = {
-      events: new EventEmitter(),
-      handler: null,
-      loaded: false
+    constructor(props) {
+      super(props);
+      this.teravozAudioLocalStream = createRef();
+      this.teravozAudioRemoteStream = createRef();
+      this.state = {
+        events: new EventEmitter(),
+        handler: null,
+        scriptLoaded: false,
+        scriptError: false,
+        webRTCStarted: false
+      };
     }
 
     handleEvent = (type, ...payload) => {
@@ -35,12 +43,18 @@ export default (WrappedComponent, opts) => {
     }
 
     handleWebRTCSuccess = (handler) => {
-      this.setState({ handler: new TeravozAdapterHandler(handler) });
       this.handleEvent('success', null);
+      this.setState({
+        handler: new TeravozAdapterHandler(handler),
+        webRTCStarted: true
+      });
     }
 
-    componentDidMount() {
-      const streams = { localStream, remoteStream } = this.opts;
+    handleScriptError = () => {
+      this.setState({ scriptError: true });
+    }
+
+    handleScriptLoad = () => {
       const eventHandler = (type) => (...payload) => this.handleEvent(type, ...payload);
 
       Teravoz.start({
@@ -67,25 +81,43 @@ export default (WrappedComponent, opts) => {
           isReceivingMedia: eventHandler('isReceivingMedia'),
           cleanup: eventHandler('cleanup')
         }
-      }, streams);
+      }, {
+        localStream: this.teravozAudioLocalStream.current,
+        remoteStream: this.teravozAudioRemoteStream.current
+      });
+
+      this.setState({ scriptLoaded: true });
     }
 
     render() {
+      const { events, handler, scriptLoaded, scriptError, webRTCStarted } = this.state;
       const props = {
         ...this.props,
         teravoz: {
-          ...this.state.teravoz,
-          ...this.state.handler
+          events,
+          ...handler
         }
       };
       return (
         <Fragment>
-          <WrappedComponent ...props />
-          <script script data-id="teravoz" data-key={ opts.apiKey } src="https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js" />
+          {
+            (scriptError && "Error loading the teravoz-webrtc.js") ||
+            (scriptLoaded && webRTCStarted && <WrappedComponent { ...props } />) ||
+            "Loading"
+          }
+          <Script
+            attributes={{ 'data-id':'teravoz', 'data-key': opts.apiKey }}
+            url="https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js"
+            onCreate={ () => {} }
+            onError={ this.handleScriptError }
+            onLoad={ this.handleScriptLoad }
+          />
+          <audio ref={this.teravozAudioLocalStream} controls autoPlay muted="muted"></audio>
+          <audio ref={this.teravozAudioRemoteStream} controls autoPlay></audio>
         </Fragment>
       );
     }
   }
 
-  return (<TeravozAdapter />);
+  return TeravozAdapter;
 }
