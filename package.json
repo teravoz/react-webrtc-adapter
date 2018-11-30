@@ -1,5 +1,5 @@
 {
-  "name": "react-webrtc-adapter",
+  "name": "@teravoz/react-webrtc-adapter",
   "version": "0.1.0-beta.0",
   "main": "build",
   "author": "Teravoz",
@@ -25,5 +25,23 @@
   },
   "scripts": {
     "prepublish": "webpack"
-  }
+  },
+  "description": "The Teravoz WebRTC Adapter for wrapping up your React componponents with telephonic capabilities",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teravoz/react-webrtc-adapter.git"
+  },
+  "keywords": [
+    "teravoz",
+    "webrtc",
+    "voip",
+    "react",
+    "adapter",
+    "api",
+    "wrapper"
+  ],
+  "bugs": {
+    "url": "https://github.com/teravoz/react-webrtc-adapter/issues"
+  },
+  "homepage": "https://github.com/teravoz/react-webrtc-adapter#readme"
 }
