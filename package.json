@@ -1,7 +1,7 @@
 {
   "name": "@teravoz/react-webrtc-adapter",
   "version": "0.1.0-beta.0",
-  "main": "build",
+  "main": "dist",
   "author": "Teravoz",
   "license": "ISC",
   "devDependencies": {
@@ -24,7 +24,7 @@
     "react-load-script": "0.0.6"
   },
   "scripts": {
-    "prepublish": "webpack"
+    "prepare": "webpack"
   },
   "description": "The Teravoz WebRTC Adapter for wrapping up your React componponents with telephonic capabilities",
   "repository": {
