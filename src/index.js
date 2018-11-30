@@ -1,11 +1,11 @@
 import React, { createRef, Component, Fragment } from 'react';
 import Script from 'react-load-script'
 import EventEmitter from 'events';
-import { Error, Loading } from './views';
 
 export default (WrappedComponent, opts) => {
 
-  class TeravozAdapterHandler {
+  class HandlerActions {
+
     constructor(handler) {
       const handle = (method) => (...args) => handler[method](...args);
 
@@ -31,7 +31,7 @@ export default (WrappedComponent, opts) => {
       this.teravozAudioRemoteStream = createRef();
       this.state = {
         events: new EventEmitter(),
-        handler: null,
+        actions: null,
         scriptLoaded: false,
         scriptError: false,
         webRTCStarted: false
@@ -46,15 +46,13 @@ export default (WrappedComponent, opts) => {
     handleWebRTCSuccess = (handler) => {
       this.handleEvent('success', null);
       this.setState({
-        handler: new TeravozAdapterHandler(handler),
+        actions: new HandlerActions(handler),
         webRTCStarted: true
       });
     }
 
-    handleScriptError = () => {
-      this.setState({ scriptError: true });
-    }
-
+    // when the script loads, the HOC should start the Teravoz lib and set all
+    // its callbackst to make it available
     handleScriptLoad = () => {
       const eventHandler = (type) => (...payload) => this.handleEvent(type, ...payload);
 
@@ -90,24 +88,29 @@ export default (WrappedComponent, opts) => {
       this.setState({ scriptLoaded: true });
     }
 
+    handleScriptError = (error) => {
+      this.setState({ scriptError: true });
+    }
+
     render() {
-      const { events, handler, scriptLoaded, scriptError, webRTCStarted } = this.state;
+      const { events, actions, scriptLoaded, scriptError, webRTCStarted } = this.state;
+      const { apiKey, errorComponent, loadingComponent } = opts;
       const props = {
         ...this.props,
         teravoz: {
           events,
-          ...handler
+          ...actions
         }
       };
       return (
         <Fragment>
           {
-            (scriptError && <Error />) ||
+            (scriptError && (errorComponent || 'Error loading the Teravoz client')) ||
             (scriptLoaded && webRTCStarted && <WrappedComponent { ...props } />) ||
-            <Loading />
+            (loadingComponent || 'Loading')
           }
           <Script
-            attributes={{ 'data-id':'teravoz', 'data-key': opts.apiKey }}
+            attributes={{ 'data-id':'teravoz', 'data-key': apiKey }}
             url="https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js"
             onCreate={ () => {} }
             onError={ this.handleScriptError }
