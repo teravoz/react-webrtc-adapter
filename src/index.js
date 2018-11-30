@@ -1,6 +1,7 @@
 import React, { createRef, Component, Fragment } from 'react';
 import Script from 'react-load-script'
-import EventEmitter from 'eventemitter3';
+import EventEmitter from 'events';
+import { Error, Loading } from './views';
 
 export default (WrappedComponent, opts) => {
 
@@ -101,9 +102,9 @@ export default (WrappedComponent, opts) => {
       return (
         <Fragment>
           {
-            (scriptError && "Error loading the teravoz-webrtc.js") ||
+            (scriptError && <Error />) ||
             (scriptLoaded && webRTCStarted && <WrappedComponent { ...props } />) ||
-            "Loading"
+            <Loading />
           }
           <Script
             attributes={{ 'data-id':'teravoz', 'data-key': opts.apiKey }}
