@@ -1,7 +1,7 @@
 # React WebRTC Adapter 
 
 [![NPM Version][npm-image]][npm-url]
-[![PRs Welcome][pr-image]]()
+[![PRs Welcome][pr-image]][pr-url]
 
 React HOC that bind the Teravoz WebRTC Library to your component props.
 
@@ -319,3 +319,4 @@ The `webRTCState` event is received when there is a change in the WebRTC state. 
 [npm-image]: https://img.shields.io/npm/v/@teravoz/react-webrtc-adapter.svg
 [npm-url]: https://npmjs.org/package/@teravoz/react-webrtc-adapter
 [pr-image]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg
+[pr-url]: https://github.com/teravoz/react-webrtc-adapter/pulls
