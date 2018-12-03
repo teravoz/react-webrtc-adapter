@@ -1,5 +1,5 @@
 import React, { createRef, Component, Fragment } from 'react';
-import Script from 'react-load-script'
+import Script from 'react-load-script';
 import EventEmitter from 'events';
 
 export default (WrappedComponent, opts) => {
@@ -11,12 +11,9 @@ export default (WrappedComponent, opts) => {
 
       this.register = handle('register');
       this.unregister = handle('unregister');
-      this.call = handle('call');
       this.dial = handle('dial');
       this.hold = handle('hold');
       this.unhold = handle('unhold');
-      this.accept = handle('accept');
-      this.decline = handle('decline');
       this.mute = handle('mute');
       this.unmute = handle('unmute');
       this.hangup = handle('hangup');
@@ -68,6 +65,8 @@ export default (WrappedComponent, opts) => {
           registering: eventHandler('registering'),
           registered: eventHandler('registered'),
           registrationFailed: eventHandler('registrationFailed'),
+          unregistering: eventHandler('unregistering'),
+          unregistered: eventHandler('unregistered'),
           calling: eventHandler('calling'),
           incomingCall: eventHandler('incomingCall'),
           earlyMedia: eventHandler('earlyMedia'),
