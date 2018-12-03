@@ -3,9 +3,9 @@
 [![NPM Version][npm-image]][npm-url]
 [![PRs Welcome][pr-image]][pr-url]
 
-React HOC that bind the Teravoz WebRTC Library to your component props.
+React HOC that binds the Teravoz WebRTC Library to your component props.
 
-Have Teravoz WebRTC binded wherever you want.
+Have Teravoz WebRTC bound to wherever you want.
 
 ```javascript
 import React, { Component } from 'react';
@@ -70,11 +70,11 @@ this.props.teravoz.register({ username: 'username', password: 'password' });
 
 The `register()` method is required to initialize a session with the Teravoz platform.
 
-For initialization it requires a Javascript object with the following properties:
+The initialization requires a Javascript Object with the following properties:
 * **username** *(string)* - your peer number
 * **password** *(string)* - your peer password
 
-The `register()` method returns a `Promise`. Once the `Promise` is resolved, you are able to make and receive calls.
+The `register()` emits the registering/registered/registrationFailed events. Once the registered is emitted, you are able to make and receive calls.
 
 > PS: you can handle the promise with the `.then()` callback method or using `async/await`.
 
@@ -83,14 +83,14 @@ The `register()` method returns a `Promise`. Once the `Promise` is resolved, you
 this.props.teravoz.unregister();
 ```
 
-The `unregister()` method must be used when a user/peer need to be logged out.
+The `unregister()` method must be used when a user/peer needs to be logout.
 
 ## `dial`
 ```javascript
 this.props.teravoz.dial({ numberTo: '011987654321', error: console.error });
 ```
 
-The `dial()` method must be used to start a call. It requires a Javascript object with the following properties:
+The `dial()` method must be used to start a call. It requires a Javascript Object with the following properties:
 * **numberTo** *(string)* - the number who will be called
 * **error** *(function)* - a callback function to handle a call error
 
@@ -293,7 +293,7 @@ this.props.teravoz.events('calling', () => { ... });
 
 The `calling` event is received when the [`dial()`](#dial) method is called.
 
-> PS: when the `calling` event is received the call is actually not ringing yet. This event refers to an intermediate state between the `dial` and the `ringing` states of a call. In this point you should consider using some fake audio to simulate the ringing.
+> PS: when the `calling` event is received the call is not actually ringing yet. In other words, the call did not reach the carrier yet. This event refers to an intermediate state between the `dial` and the `ringing` states of a call. In this point you should consider using some fake audio to simulate the ringing.
 
 ## on `earlyMedia`
 ```javascript
