@@ -1,5 +1,5 @@
 import React, { createRef, Component, Fragment } from 'react';
-import Script from 'react-load-script'
+import Script from 'react-load-script';
 import EventEmitter from 'events';
 
 export default (WrappedComponent, opts) => {
