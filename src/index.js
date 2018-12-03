@@ -11,12 +11,9 @@ export default (WrappedComponent, opts) => {
 
       this.register = handle('register');
       this.unregister = handle('unregister');
-      this.call = handle('call');
       this.dial = handle('dial');
       this.hold = handle('hold');
       this.unhold = handle('unhold');
-      this.accept = handle('accept');
-      this.decline = handle('decline');
       this.mute = handle('mute');
       this.unmute = handle('unmute');
       this.hangup = handle('hangup');
@@ -68,17 +65,19 @@ export default (WrappedComponent, opts) => {
           registering: eventHandler('registering'),
           registered: eventHandler('registered'),
           registrationFailed: eventHandler('registrationFailed'),
+          unregistering: eventHandler('unregistering'),
+          unregistered: eventHandler('unregistered'),
           calling: eventHandler('calling'),
           incomingCall: eventHandler('incomingCall'),
           earlyMedia: eventHandler('earlyMedia'),
           acceptedCall: eventHandler('acceptedCall'),
           missedCall: eventHandler('missedCall'),
           hangingUp: eventHandler('hangingUp'),
-          hangup: eventHandler('hangup'),
+          hangup: eventHandler('hangUp'),
           webRTCState: eventHandler('webRTCState'),
           DTMF: eventHandler('DTMF'),
           isReceivingMedia: eventHandler('isReceivingMedia'),
-          cleanup: eventHandler('cleanup')
+          cleanup: eventHandler('cleanUp')
         }
       }, {
         localStream: this.teravozAudioLocalStream.current,
