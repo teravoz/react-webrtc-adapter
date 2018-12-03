@@ -1,0 +1,47 @@
+{
+  "name": "@teravoz/react-webrtc-adapter",
+  "version": "0.1.0-beta.0",
+  "main": "dist",
+  "author": "Teravoz",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "react-css-modules": "^4.1.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "eventemitter3": "^3.1.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-load-script": "0.0.6"
+  },
+  "scripts": {
+    "prepare": "webpack"
+  },
+  "description": "The Teravoz WebRTC Adapter for wrapping up your React componponents with telephonic capabilities",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teravoz/react-webrtc-adapter.git"
+  },
+  "keywords": [
+    "teravoz",
+    "webrtc",
+    "voip",
+    "react",
+    "adapter",
+    "api",
+    "wrapper"
+  ],
+  "bugs": {
+    "url": "https://github.com/teravoz/react-webrtc-adapter/issues"
+  },
+  "homepage": "https://github.com/teravoz/react-webrtc-adapter#readme"
+}
