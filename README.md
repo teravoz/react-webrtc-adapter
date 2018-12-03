@@ -1,8 +1,9 @@
 # React WebRTC Adapter 
 
 [![NPM Version][npm-image]][npm-url]
+[![PRs Welcome][pr-image]]()
 
-React Component that bind the Teravoz WebRTC Library to your component props.
+React HOC that bind the Teravoz WebRTC Library to your component props.
 
 Have Teravoz WebRTC binded wherever you want.
 
@@ -10,7 +11,7 @@ Have Teravoz WebRTC binded wherever you want.
 import React, { Component } from 'react';
 import teravozWebRTCAdapter from '@teravoz/react-webrtc-adapter';
 
-class ToRender extends Component {
+class MyComponent extends Component {
 
   render() {
     this.props.teravoz.*
@@ -18,7 +19,7 @@ class ToRender extends Component {
   }
 }
 
-exports default teravozWebRTCAdapter(ToRender, {
+exports default teravozWebRTCAdapter(MyComponent, {
   apiKey: '<your-api-key>'
 });
 ```
@@ -309,3 +310,12 @@ this.props.teravoz.events('webRTCState', () => { ... });
 
 The `webRTCState` event is received when there is a change in the WebRTC state. It receive one argument in the callback:
 * **on** *(boolean)* - if the WebRTC is on
+
+# Roadmap
+
+* Full test coverage
+* v1 Release
+
+[npm-image]: https://img.shields.io/npm/v/@teravoz/react-webrtc-adapter.svg
+[npm-url]: https://npmjs.org/package/@teravoz/react-webrtc-adapter
+[pr-image]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg
