@@ -184,42 +184,42 @@ this.props.teravoz.events.on('*', (type, payload) => {
 
 ## on `registering`
 ```javascript
-this.props.teravoz.events('registering', () => { ... });
+this.props.teravoz.events.on('registering', () => { ... });
 ```
 
 The `registering` event is received when the [`register()`](#register) method is called.
 
 ## on `registered`
 ```javascript
-this.props.teravoz.events('registered', () => { ... });
+this.props.teravoz.events.on('registered', () => { ... });
 ```
 
 The `registered` event is received once the peer is succesfull registered (username and password are valid).
 
 ## on `registrationFailed`
 ```javascript
-this.props.teravoz.events('registrationFailed', () => { ... });
+this.props.teravoz.events.on('registrationFailed', () => { ... });
 ```
 
 The `registrationFailed` event is received when the username and password are not valid.
 
 ## on `unregistering`
 ```javascript
-this.props.teravoz.events('unregistering', () => { ... });
+this.props.teravoz.events.on('unregistering', () => { ... });
 ```
 
 The `unregistering` event is received when the [`unregister()`](#unregister) method is called.
 
 ## on `unregistered`
 ```javascript
-this.props.teravoz.events('unregistered', () => { ... });
+this.props.teravoz.events.on('unregistered', () => { ... });
 ```
 
 The `unregistered` event is received once the peer is succesfull unregistered.
 
 ## on `incomingCall`
 ```javascript
-this.props.teravoz.events('incomingCall', ({ theirNumber, handler: { accept, decline } }) => { ... });
+this.props.teravoz.events.on('incomingCall', ({ theirNumber, handler: { accept, decline } }) => { ... });
 ```
 
 The `incomingCall` event is received when an incoming call is received.
@@ -234,14 +234,14 @@ The `handler` object has the methods to accept or decline the incoming call:
 
 ## on `acceptedCall`
 ```javascript
-this.props.teravoz.events('acceptedCall', () => { ... });
+this.props.teravoz.events.on('acceptedCall', () => { ... });
 ```
 
 The `acceptedCall` event is received when a call is accepted by the [`incomingCall`](#on-incomingcall)'s `handler`.
 
 ## on `isReceivingMedia`
 ```javascript
-this.props.teravoz.events('isReceivingMedia', (mediaType, on)) => { ... });
+this.props.teravoz.events.on('isReceivingMedia', (mediaType, on)) => { ... });
 ```
 
 The `isReceivingMedia` event is received once the connection is established between the sides. It receives two arguments in the callback:
@@ -250,7 +250,7 @@ The `isReceivingMedia` event is received once the connection is established betw
 
 ## on `DTMF`
 ```javascript
-this.props.teravoz.events('DTMF', ({ sendTones })) => { ... });
+this.props.teravoz.events.on('DTMF', ({ sendTones })) => { ... });
 ```
 
 The `DTMF` event is received when additional information is requested.
@@ -260,35 +260,35 @@ The event receive an object with one function.
 
 ## on `hangingUp`
 ```javascript
-this.props.teravoz.events('hangingUp', () => { ... });
+this.props.teravoz.events.on('hangingUp', () => { ... });
 ```
 
 The `hangingUp` event is received once a call is succesfully hanged up.
 
 ## on `hangUp`
 ```javascript
-this.props.teravoz.events('hangUp', () => { ... });
+this.props.teravoz.events.on('hangUp', () => { ... });
 ```
 
 The `hangUp` event is received when the [`hangup()`](#hangup) method is called.
 
 ## on `missedCall`
 ```javascript
-this.props.teravoz.events('missedCall', () => { ... });
+this.props.teravoz.events.on('missedCall', () => { ... });
 ```
 
 The `missedCall` event is received when you received a call but did not answered it.
 
 ## on `cleanUp`
 ```javascript
-this.props.teravoz.events('cleanUp', () => { ... });
+this.props.teravoz.events.on('cleanUp', () => { ... });
 ```
 
 The `cleanUp` event is received everytime a call lifecycle ends.
 
 ## on `calling`
 ```javascript
-this.props.teravoz.events('calling', () => { ... });
+this.props.teravoz.events.on('calling', () => { ... });
 ```
 
 The `calling` event is received when the [`dial()`](#dial) method is called.
@@ -297,7 +297,7 @@ The `calling` event is received when the [`dial()`](#dial) method is called.
 
 ## on `earlyMedia`
 ```javascript
-this.props.teravoz.events('earlyMedia', () => { ... });
+this.props.teravoz.events.on('earlyMedia', () => { ... });
 ```
 
 The `earlyMedia` event is received when a connection is in fact established, even if the call goes to the voicemail.
@@ -305,7 +305,7 @@ The `earlyMedia` event is received when a connection is in fact established, eve
 
 ## on `webRTCState`
 ```javascript
-this.props.teravoz.events('webRTCState', (on) => { ... });
+this.props.teravoz.events.on('webRTCState', (on) => { ... });
 ```
 
 The `webRTCState` event is received when there is a change in the WebRTC state. It receive one argument in the callback:
