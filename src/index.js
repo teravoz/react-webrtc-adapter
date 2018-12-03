@@ -73,11 +73,11 @@ export default (WrappedComponent, opts) => {
           acceptedCall: eventHandler('acceptedCall'),
           missedCall: eventHandler('missedCall'),
           hangingUp: eventHandler('hangingUp'),
-          hangup: eventHandler('hangUp'),
+          hangup: eventHandler('hangup'),
           webRTCState: eventHandler('webRTCState'),
           DTMF: eventHandler('DTMF'),
           isReceivingMedia: eventHandler('isReceivingMedia'),
-          cleanup: eventHandler('cleanUp')
+          cleanup: eventHandler('cleanup')
         }
       }, {
         localStream: this.teravozAudioLocalStream.current,
