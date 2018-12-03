@@ -305,7 +305,7 @@ The `earlyMedia` event is received when a connection is in fact established, eve
 
 ## on `webRTCState`
 ```javascript
-this.props.teravoz.events('webRTCState', () => { ... });
+this.props.teravoz.events('webRTCState', (on) => { ... });
 ```
 
 The `webRTCState` event is received when there is a change in the WebRTC state. It receive one argument in the callback:
