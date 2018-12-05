@@ -16,7 +16,8 @@ export default (WrappedComponent, opts) => {
       this.unhold = handle('unhold');
       this.mute = handle('mute');
       this.unmute = handle('unmute');
-      this.hangup = handle('hangup');
+      this.hangUp = handle('hangUp');
+      this.sendDTMF = handle('sendDTMF');
     }
   }
 
@@ -73,11 +74,11 @@ export default (WrappedComponent, opts) => {
           acceptedCall: eventHandler('acceptedCall'),
           missedCall: eventHandler('missedCall'),
           hangingUp: eventHandler('hangingUp'),
-          hangup: eventHandler('hangup'),
+          hangUp: eventHandler('hangUp'),
           webRTCState: eventHandler('webRTCState'),
           DTMF: eventHandler('DTMF'),
           isReceivingMedia: eventHandler('isReceivingMedia'),
-          cleanup: eventHandler('cleanup')
+          cleanUp: eventHandler('cleanUp')
         }
       }, {
         localStream: this.teravozAudioLocalStream.current,
@@ -110,7 +111,7 @@ export default (WrappedComponent, opts) => {
           }
           <Script
             attributes={{ 'data-id':'teravoz', 'data-key': apiKey }}
-            url="https://cdn.teravoz.com.br/webrtc/v1.12/teravoz-webrtc.js"
+            url="https://cdn.teravoz.com.br/webrtc/v1.14/teravoz-webrtc.js"
             onCreate={ () => {} }
             onError={ this.handleScriptError }
             onLoad={ this.handleScriptLoad }

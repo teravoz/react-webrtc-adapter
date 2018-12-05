@@ -59,40 +59,37 @@ For detailed information, see the [Methods Reference](#methods-reference).
 * [`unhold`](#unhold)
 * [`mute`](#mute)
 * [`unmute`](#unmute)
-* [`hangup`](#hangup)
+* [`hangUp`](#hangup)
+* [`sendDTMF`](#senddtmf)
 
 ## Methods Reference
 
 ## `register` 
 ```javascript
-this.props.teravoz.register({ username: 'username', password: 'password' });
+this.props.teravoz.register('101', '***');
 ```
 
-The `register()` method is required to initialize a session with the Teravoz platform.
+The `register('username', 'password')` method is required to initialize a session with the Teravoz platform.
+* **username** *(`string`, required)* - your peer username (usually the number)
+* **password** *(`string`, required)* - your peer password
 
-The initialization requires a Javascript Object with the following properties:
-* **username** *(string)* - your peer number
-* **password** *(string)* - your peer password
-
-The `register()` emits the registering/registered/registrationFailed events. Once the registered is emitted, you are able to make and receive calls.
-
-> PS: you can handle the promise with the `.then()` callback method or using `async/await`.
+The `register` method emits the registering/registered/registrationFailed events. Once the `registered` is emitted, you are able to make and receive calls.
 
 ## `unregister`
 ```javascript
 this.props.teravoz.unregister();
 ```
 
-The `unregister()` method must be used when a user/peer needs to be logout.
+The `unregister()` method must be used when a user/peer needs to be unregistered.
 
 ## `dial`
 ```javascript
-this.props.teravoz.dial({ numberTo: '011987654321', error: console.error });
+this.props.teravoz.dial('011987654321');
 ```
 
-The `dial()` method must be used to start a call. It requires a Javascript Object with the following properties:
-* **numberTo** *(string)* - the number who will be called
-* **error** *(function)* - a callback function to handle a call error
+The `dial('number')` method must be used to start a call. 
+* **number** *(`string`, required)* - the number who will be called
+
 
 ## `hold`
 ```javascript
@@ -122,12 +119,26 @@ this.props.teravoz.unmute();
 
 The `unmute()` method unmute an ongoing call.
 
-## `hangup`
+## `hangUp`
 ```javascript
-this.props.teravoz.hangup();
+this.props.teravoz.hangUp();
 ```
 
-The `hangup()` method hangup an ongoing call.
+The `hangUp()` method hang up an ongoing call.
+
+## `sendDTMF`
+```javascript
+this.props.teravoz.sendDTMF('3', { 
+  duration: 500, 
+  gap: 50
+});
+```
+
+The `sendDTMF('tone', options = { duration, gap })` method sends a tone.
+* **tone** *(`char`)* - the tone to be sent
+* **options** *(`object`, optional)* - the DTMF options to send the tone.
+  * **duration** *(`int`, default = `500`)* - the tone sound duration in milliseconds
+  * **gap** *(`int`, default = `50`)* - the gap between the tones in milliseconds
 
 # Events
 
@@ -187,7 +198,7 @@ this.props.teravoz.events.on('*', (type, payload) => {
 this.props.teravoz.events.on('registering', () => { ... });
 ```
 
-The `registering` event is received when the [`register()`](#register) method is called.
+The `registering` event is received when the [`register`](#register) method is called.
 
 ## on `registered`
 ```javascript
@@ -219,25 +230,27 @@ The `unregistered` event is received once the peer is succesfull unregistered.
 
 ## on `incomingCall`
 ```javascript
-this.props.teravoz.events.on('incomingCall', ({ theirNumber, handler: { accept, decline } }) => { ... });
+this.props.teravoz.events.on('incomingCall', (theirNumber, actions) => { 
+  console.info('Receiving and accepting call from', theirNumber);
+  actions.accept(); // accepts the incoming call
+  // or 
+  actions.decline(); // declines the incoming call
+});
 ```
 
-The `incomingCall` event is received when an incoming call is received.
-
-The event is an object with two properties:
-* **theirNumber** *(string)* - the number who is calling
-* **handler** *(object)* - a call management `handler` object
-
-The `handler` object has the methods to accept or decline the incoming call:
-* **accept** *(function)* - accepts the current incoming call
-* **decline** *(function)* - declines the current incoming call
+The `incomingCall` event is received when an incoming call is received. It receives two arguments in the callback:
+* **theirNumber** *(`string`)* - the number who is calling
+* **actions** *(`object`)* - a call management `actions` object
+  * **accept** *(`function`)* - accepts the current incoming call
+  * **decline** *(`function`)* - declines the current incoming call
 
 ## on `acceptedCall`
 ```javascript
-this.props.teravoz.events.on('acceptedCall', () => { ... });
+this.props.teravoz.events.on('acceptedCall', (theirNumber) => { ... });
 ```
 
-The `acceptedCall` event is received when a call is accepted by the [`incomingCall`](#on-incomingcall)'s `handler`.
+The `acceptedCall` event is received when a call is accepted by the [`incomingCall`](#on-incomingcall)'s `actions`. It receives one argument in the callback:
+* **theirNumber** *(`string`)* - the number who called
 
 ## on `isReceivingMedia`
 ```javascript
@@ -245,18 +258,15 @@ this.props.teravoz.events.on('isReceivingMedia', (mediaType, on)) => { ... });
 ```
 
 The `isReceivingMedia` event is received once the connection is established between the sides. It receives two arguments in the callback:
-* **mediaType** *(string)* - the value `audio`
-* **on** *(boolean)* - if the media is being transfered
+* **mediaType** *(`string`)* - the value `audio`
+* **on** *(`boolean`)* - if the media is being transfered
 
 ## on `DTMF`
 ```javascript
-this.props.teravoz.events.on('DTMF', ({ sendTones })) => { ... });
+this.props.teravoz.events.on('DTMF', () => { ... });
 ```
 
 The `DTMF` event is received when additional information is requested.
-
-The event receive an object with one function.
-* **sendTones** *(function)* - a function to send the tones to the Teravoz Platform
 
 ## on `hangingUp`
 ```javascript
@@ -270,14 +280,15 @@ The `hangingUp` event is received once a call is succesfully hanged up.
 this.props.teravoz.events.on('hangUp', () => { ... });
 ```
 
-The `hangUp` event is received when the [`hangup()`](#hangup) method is called.
+The `hangUp` event is received when the [`hangUp()`](#hangup) method is called.
 
 ## on `missedCall`
 ```javascript
-this.props.teravoz.events.on('missedCall', () => { ... });
+this.props.teravoz.events.on('missedCall', (theirNumber) => { ... });
 ```
 
-The `missedCall` event is received when you received a call but did not answered it.
+The `missedCall` event is received when you received a call but did not answered. It receives one argument in the callback:
+* **theirNumber** *(`string`)* - the number who called
 
 ## on `cleanUp`
 ```javascript
@@ -297,10 +308,11 @@ The `calling` event is received when the [`dial()`](#dial) method is called.
 
 ## on `earlyMedia`
 ```javascript
-this.props.teravoz.events.on('earlyMedia', () => { ... });
+this.props.teravoz.events.on('earlyMedia', (theirNumber) => { ... });
 ```
 
-The `earlyMedia` event is received when a connection is in fact established, even if the call goes to the voicemail.
+The `earlyMedia` event is received when a connection is in fact established, even if the call goes to the voicemail.. It receives one argument in the callback:
+* **theirNumber** *(`string`)* - the number who is calling
 
 
 ## on `webRTCState`
@@ -309,7 +321,7 @@ this.props.teravoz.events.on('webRTCState', (on) => { ... });
 ```
 
 The `webRTCState` event is received when there is a change in the WebRTC state. It receive one argument in the callback:
-* **on** *(boolean)* - if the WebRTC is on
+* **on** *(`boolean`)* - if the WebRTC is on
 
 # Roadmap
 
