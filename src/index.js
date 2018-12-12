@@ -50,8 +50,8 @@ export default (WrappedComponent, opts) => {
       });
     }
 
-    handleWebRTCError = (error) => {
-      this.handleEvent('error', error);
+    handleWebRTCError = (err) => {
+      this.handleEvent('fail', err);
       this.setState({ error: true });
     }
 
@@ -113,10 +113,9 @@ export default (WrappedComponent, opts) => {
           {
             ((scriptError || error) && (errorComponent || 'Error loading the Teravoz client')) ||
             (scriptLoaded && webRTCStarted && <WrappedComponent { ...props } />) ||
-            (loadingComponent || 'Loading')
+            ((!error && loadingComponent) || 'Loading')
           }
           {
-            error ? null :
             <Script
               attributes={{ 'data-id':'teravoz', 'data-key': apiKey }}
               url="https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js"
