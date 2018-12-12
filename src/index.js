@@ -32,7 +32,8 @@ export default (WrappedComponent, opts) => {
         actions: null,
         scriptLoaded: false,
         scriptError: false,
-        webRTCStarted: false
+        webRTCStarted: false,
+        error: false
       };
     }
 
@@ -49,6 +50,11 @@ export default (WrappedComponent, opts) => {
       });
     }
 
+    handleWebRTCError = (error) => {
+      this.handleEvent('error', error);
+      this.setState({ error: true });
+    }
+
     // when the script loads, the HOC should start the Teravoz lib and set all
     // its callbackst to make it available
     handleScriptLoad = () => {
@@ -62,7 +68,7 @@ export default (WrappedComponent, opts) => {
         },
         webRTCCallbacks: {
           success: this.handleWebRTCSuccess,
-          error: eventHandler('error'),
+          error: this.handleWebRTCError,
           registering: eventHandler('registering'),
           registered: eventHandler('registered'),
           registrationFailed: eventHandler('registrationFailed'),
@@ -93,7 +99,7 @@ export default (WrappedComponent, opts) => {
     }
 
     render() {
-      const { events, actions, scriptLoaded, scriptError, webRTCStarted } = this.state;
+      const { events, actions, scriptLoaded, scriptError, error, webRTCStarted } = this.state;
       const { apiKey, errorComponent, loadingComponent } = opts;
       const props = {
         ...this.props,
@@ -105,17 +111,20 @@ export default (WrappedComponent, opts) => {
       return (
         <Fragment>
           {
-            (scriptError && (errorComponent || 'Error loading the Teravoz client')) ||
+            ((scriptError || error) && (errorComponent || 'Error loading the Teravoz client')) ||
             (scriptLoaded && webRTCStarted && <WrappedComponent { ...props } />) ||
             (loadingComponent || 'Loading')
           }
-          <Script
-            attributes={{ 'data-id':'teravoz', 'data-key': apiKey }}
-            url="https://cdn.teravoz.com.br/webrtc/v1.14/teravoz-webrtc.js"
-            onCreate={ () => {} }
-            onError={ this.handleScriptError }
-            onLoad={ this.handleScriptLoad }
-          />
+          {
+            error ? null :
+            <Script
+              attributes={{ 'data-id':'teravoz', 'data-key': apiKey }}
+              url="https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js"
+              onCreate={ () => {} }
+              onError={ this.handleScriptError }
+              onLoad={ this.handleScriptLoad }
+            />
+          }
           <audio ref={this.teravozAudioLocalStream} controls autoPlay muted="muted"></audio>
           <audio ref={this.teravozAudioRemoteStream} controls autoPlay></audio>
         </Fragment>
