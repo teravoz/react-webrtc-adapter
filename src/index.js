@@ -100,12 +100,16 @@ export default (WrappedComponent, opts) => {
 
     render() {
       const { events, actions, scriptLoaded, scriptError, error, webRTCStarted } = this.state;
-      const { apiKey, errorComponent, loadingComponent } = opts;
+      const { apiKey, errorComponent, loadingComponent, url } = opts;
       const props = {
         ...this.props,
         teravoz: {
           events,
-          ...actions
+          ...actions,
+          streams: {
+            local: this.teravozAudioLocalStream,
+            remote: this.teravozAudioRemoteStream
+          }
         }
       };
       return (
@@ -118,7 +122,7 @@ export default (WrappedComponent, opts) => {
           {
             <Script
               attributes={{ 'data-id':'teravoz', 'data-key': apiKey }}
-              url="https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js"
+              url={ url || "https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js" }
               onCreate={ () => {} }
               onError={ this.handleScriptError }
               onLoad={ this.handleScriptLoad }
