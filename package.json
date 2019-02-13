@@ -1,6 +1,6 @@
 {
   "name": "@teravoz/react-webrtc-adapter",
-  "version": "0.6.0-beta",
+  "version": "0.7.0-beta",
   "main": "dist",
   "author": "Teravoz",
   "license": "ISC",

@@ -18,6 +18,7 @@ export default (WrappedComponent, opts) => {
       this.unmute = handle('unmute');
       this.hangUp = handle('hangUp');
       this.sendDTMF = handle('sendDTMF');
+      this.setDevices = handle('setDevices');
     }
   }
 
@@ -112,6 +113,14 @@ export default (WrappedComponent, opts) => {
           }
         }
       };
+
+      const attributes = { 'data-id':'teravoz' };
+
+      if (apiKey) {
+        attributes['data-key'] = apiKey;
+      }
+
+
       return (
         <Fragment>
           {
@@ -121,7 +130,7 @@ export default (WrappedComponent, opts) => {
           }
           {
             <Script
-              attributes={{ 'data-id':'teravoz', 'data-key': apiKey }}
+              attributes={ attributes }
               url={ url || "https://cdn.teravoz.com.br/webrtc/v1/teravoz-webrtc.js" }
               onCreate={ () => {} }
               onError={ this.handleScriptError }
