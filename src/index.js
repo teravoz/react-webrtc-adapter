@@ -61,7 +61,9 @@ export default (WrappedComponent, opts) => {
     handleScriptLoad = () => {
       const eventHandler = (type) => (...payload) => this.handleEvent(type, ...payload);
 
+
       Teravoz.start({
+        origin: opts.origin || null,
         gatewayCallbacks: {
           closed: eventHandler('gateway-closed'),
           error: eventHandler('gateway-error'),
