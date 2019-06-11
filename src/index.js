@@ -61,13 +61,14 @@ export default (WrappedComponent, opts) => {
     handleScriptLoad = () => {
       const eventHandler = (type) => (...payload) => this.handleEvent(type, ...payload);
 
-
       Teravoz.start({
         origin: opts.origin || null,
         gatewayCallbacks: {
           closed: eventHandler('gateway-closed'),
           error: eventHandler('gateway-error'),
-          success: eventHandler('gateway-success')
+          success: eventHandler('gateway-success'),
+          disconnect: eventHandler('gateway-disconnect'),
+          reconnect: eventHandler('gateway-reconnect')
         },
         webRTCCallbacks: {
           success: this.handleWebRTCSuccess,
