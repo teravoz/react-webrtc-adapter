@@ -10,7 +10,7 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
-    "css-loader": "^0.26.1",
+    "css-loader": "^3.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "react-css-modules": "^4.1.0",
     "style-loader": "^0.13.1",
