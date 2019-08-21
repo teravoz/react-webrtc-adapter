@@ -10,6 +10,7 @@ export default (WrappedComponent, opts) => {
       const handle = (method) => (...args) => handler[method](...args);
 
       this.register = handle('register');
+      this.refresh = handle('refresh');
       this.unregister = handle('unregister');
       this.dial = handle('dial');
       this.hold = handle('hold');
