@@ -89,7 +89,9 @@ export default (WrappedComponent, opts) => {
           webRTCState: eventHandler('webRTCState'),
           DTMF: eventHandler('DTMF'),
           isReceivingMedia: eventHandler('isReceivingMedia'),
-          cleanUp: eventHandler('cleanUp')
+          cleanUp: eventHandler('cleanUp'),
+          refreshed: eventHandler('refreshed'),
+          refreshFailed: eventHandler('refreshFailed')
         }
       }, {
         localStream: this.teravozAudioLocalStream.current,
