@@ -10,6 +10,7 @@ export default (WrappedComponent, opts) => {
       const handle = (method) => (...args) => handler[method](...args);
 
       this.register = handle('register');
+      this.refresh = handle('refresh');
       this.unregister = handle('unregister');
       this.dial = handle('dial');
       this.hold = handle('hold');
@@ -88,7 +89,9 @@ export default (WrappedComponent, opts) => {
           webRTCState: eventHandler('webRTCState'),
           DTMF: eventHandler('DTMF'),
           isReceivingMedia: eventHandler('isReceivingMedia'),
-          cleanUp: eventHandler('cleanUp')
+          cleanUp: eventHandler('cleanUp'),
+          refreshed: eventHandler('refreshed'),
+          refreshFailed: eventHandler('refreshFailed')
         }
       }, {
         localStream: this.teravozAudioLocalStream.current,
