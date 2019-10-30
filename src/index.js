@@ -20,6 +20,8 @@ export default (WrappedComponent, opts) => {
       this.hangUp = handle('hangUp');
       this.sendDTMF = handle('sendDTMF');
       this.setDevices = handle('setDevices');
+      this.destroy = handle('destroy');
+      this.refresh = handle('refresh');
     }
   }
 
@@ -29,6 +31,7 @@ export default (WrappedComponent, opts) => {
       super(props);
       this.teravozAudioLocalStream = createRef();
       this.teravozAudioRemoteStream = createRef();
+
       this.state = {
         events: new EventEmitter(),
         actions: null,
@@ -64,6 +67,7 @@ export default (WrappedComponent, opts) => {
 
       Teravoz.start({
         origin: opts.origin || null,
+        headers: opts.headers || null,
         gatewayCallbacks: {
           closed: eventHandler('gateway-closed'),
           error: eventHandler('gateway-error'),
